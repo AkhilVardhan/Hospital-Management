@@ -1,4 +1,5 @@
-﻿using Hospital_Management.Models.Patient;
+﻿using Hospital_Management.Models.Doctor;
+using Hospital_Management.Models.Patient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
@@ -27,14 +28,13 @@ namespace Hospital_Management.HospitalManagementFunctions
             await objCosmosDBActivitiy.InitiateConnection();
             // retriving existing patient information based on patient GUId and partition key i.e. patientId value
             objPatientResponse = await objCosmosDBActivitiy.GetPatientItem(patientGUID, partitionkey);
-
             if (objPatientResponse != null && objPatientResponse.Resource != null)
             {
-                DateTime todaysDate = DateTime.Now, runningDate = DateTime.Now, rxDate;                
+                DateTime todaysDate = DateTime.Now, runningDate = DateTime.Now, rxDate;
                 //DateTime.TryParseExact(objPatientResponse.Resource.RXDate, "dd-MM-yyyy", null, DateTimeStyles.None, out rxDate);
                 DateTime.TryParseExact(objPatientResponse.Resource.RXDate, "yyyy-MM-dd", null, DateTimeStyles.None, out rxDate);
                 string strOrderDates = string.Empty;
-                if(rxDate !=null && rxDate >= runningDate)
+                if (rxDate != null && rxDate >= runningDate)
                 {
                     while (1 == 1)
                     {

@@ -48,7 +48,7 @@ namespace Hospital_Management.HospitalManagementFunctions
                 if (objInsertResponse == null)
                 {
                     objResponse.ErrorCode = 100;
-                    objResponse.Message = $"Error occured while inserting information of patients- {objPatientDetails.PatientName}";
+                    objResponse.Message = $"Error occured while inserting information of patients- {objPatientDetails.PatientId}";
                     log.LogInformation(objResponse.Message + "Error:" + objInsertResponse.StatusCode);
                 }
                 else

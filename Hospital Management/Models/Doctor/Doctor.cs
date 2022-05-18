@@ -18,6 +18,10 @@ namespace Hospital_Management.Models.Doctor
 
         [JsonProperty("PatientNames")]
         public string PatientNames { get; set; }
+
+        //[JsonProperty("PatientId")]
+        //public string PatientId { get; set; }
+        //public object PatientName { get; internal set; }
         //public object PatientId { get; set; }
         //public DateTime DoctorDate { get; set; }
     }

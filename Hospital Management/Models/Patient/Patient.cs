@@ -19,6 +19,9 @@ namespace Hospital_Management.Models.Patient
         [JsonProperty("DoctorName")]
         public string DoctorName { get; set; }
 
+        //[JsonProperty("DoctorId")]
+        //public string DoctorId { get; set; }
+
         [JsonProperty("RXDate")]
         public string RXDate { get; set; }
 

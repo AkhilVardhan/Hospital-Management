@@ -47,10 +47,15 @@ namespace Hospital_Management.Models.Patient
             this.database = await this.cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
         }
 
+        internal Task<string> GetDoctorNamesByPatientName(object patientName)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Create the container if it does not exist. 
-        /// Specifiy "/StudentName" as the partition key since we're storing Student information, to ensure good distribution of requests and storage.
+        /// Specifiy "/PatientName" as the partition key since we're storing Patient information, to ensure good distribution of requests and storage.
         /// </summary>
         /// <returns></returns>
         private async Task CreateContainerAsync()
@@ -65,7 +70,7 @@ namespace Hospital_Management.Models.Patient
             ItemResponse<Patient> patientResponse = null;
             try
             {
-                //  studentResponse = await this.container.CreateItemAsync<Student>(objStudent, new PartitionKey(objStudent.Name));
+
                 patientResponse = await this.container.CreateItemAsync<Patient>(objPatient, new PartitionKey(objPatient.PatientId));
             }
             catch (CosmosException ex)
@@ -81,7 +86,7 @@ namespace Hospital_Management.Models.Patient
             try
             {
                 /* Note : Partition Key value should not change */
-                // studentResponse = await this.container.ReplaceItemAsync<Student>(objStudent, objStudent.StudentId, new PartitionKey(objStudent.Name));
+
                 PatientResponse = await this.container.ReplaceItemAsync<Patient>(objPatient, objPatient.PatientGuid, new PartitionKey(objPatient.PatientId));
             }
             catch (CosmosException ex)
@@ -122,18 +127,19 @@ namespace Hospital_Management.Models.Patient
                     PatientName = r.PatientName,
                     Age = r.Age,
                     DoctorName = r.DoctorName,
-                    RXDate=r.RXDate,
-                    PatientGuid=r.PatientGuid,
-                    PatientId=r.PatientId
+                    //DoctorId=r.DoctorId,
+                    RXDate = r.RXDate,
+                    PatientGuid = r.PatientGuid,
+                    PatientId = r.PatientId
                 }).ToList();
 
             }
             return lstPatients;
         }
 
-        public async Task<string> GetPatientNamesByDoctorName(string doctorName)
+        public async Task<string> GetPatientNamesByDoctorName(string doctorId)
         {
-            var sqlQueryText = $"select * from c where c.DoctorName ='{doctorName}'";
+            var sqlQueryText = $"select * from c where c.DoctorName ='{doctorId}'";
 
             QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
             FeedIterator<Patient> queryResultSetIterator = this.container.GetItemQueryIterator<Patient>(queryDefinition);
@@ -143,7 +149,7 @@ namespace Hospital_Management.Models.Patient
             while (queryResultSetIterator.HasMoreResults)
             {
                 FeedResponse<Patient> currentResultSet = await queryResultSetIterator.ReadNextAsync();
-                lstPatients = string.Join(",",currentResultSet.Select(r => r.PatientName).ToList<string>());
+                lstPatients = string.Join(",", currentResultSet.Select(r => r.PatientName).ToList<string>());
             }
             return lstPatients;
 

@@ -49,7 +49,7 @@ namespace Hospital_Management.Models.Doctor
 
         /// <summary>
         /// Create the container if it does not exist. 
-        /// Specifiy "/StudentName" as the partition key since we're storing Student information, to ensure good distribution of requests and storage.
+        /// Specifiy "/DoctorName" as the partition key since we're storing Doctor information, to ensure good distribution of requests and storage.
         /// </summary>
         /// <returns></returns>
         private async Task CreateContainerAsync()
@@ -64,7 +64,7 @@ namespace Hospital_Management.Models.Doctor
             ItemResponse<Doctor> doctorResponse = null;
             try
             {
-                //  studentResponse = await this.container.CreateItemAsync<Student>(objStudent, new PartitionKey(objStudent.Name));
+                
                 doctorResponse = await this.container.CreateItemAsync<Doctor>(objDoctor, new PartitionKey(objDoctor.DoctorId));
             }
             catch (CosmosException ex)
@@ -85,7 +85,7 @@ namespace Hospital_Management.Models.Doctor
             try
             {
                 /* Note : Partition Key value should not change */
-                // studentResponse = await this.container.ReplaceItemAsync<Student>(objStudent, objStudent.StudentId, new PartitionKey(objStudent.Name));
+                
                 DoctorResponse = await this.container.ReplaceItemAsync<Doctor>(objDoctor, objDoctor.DoctorGuid, new PartitionKey(objDoctor.DoctorId));
             }
             catch (CosmosException ex)
@@ -127,12 +127,30 @@ namespace Hospital_Management.Models.Doctor
                     DoctorId = r.DoctorId,
                     DoctorName =r.DoctorName,
                     PatientNames=r.PatientNames,
+                    //PatientId=r.PatientId,
                     DoctorGuid=r.DoctorGuid,
                     
                 }).ToList();
 
             }
             return lstDoctors;
+        }
+        public async Task<string> GetDoctorNamesByPatientName(string patientId)
+        {
+            var sqlQueryText = $"select * from c where c.PatientName ='{patientId}'";
+
+            QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
+            FeedIterator<Doctor> queryResultSetIterator = this.container.GetItemQueryIterator<Doctor>(queryDefinition);
+
+            string lstDoctors = string.Empty;
+
+            while (queryResultSetIterator.HasMoreResults)
+            {
+                FeedResponse<Doctor> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                lstDoctors = string.Join(",", currentResultSet.Select(r => r.DoctorName).ToList<string>());
+            }
+            return lstDoctors;
+
         }
     }
 }
