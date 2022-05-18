@@ -139,7 +139,7 @@ namespace Hospital_Management.Models.Patient
 
         public async Task<string> GetPatientNamesByDoctorName(string doctorId)
         {
-            var sqlQueryText = $"select * from c where c.DoctorName ='{doctorId}'";
+            var sqlQueryText = $"select * from c where c.Doctor.DoctorId ='{doctorId}'";
 
             QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
             FeedIterator<Patient> queryResultSetIterator = this.container.GetItemQueryIterator<Patient>(queryDefinition);
