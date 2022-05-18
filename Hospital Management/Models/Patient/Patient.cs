@@ -7,10 +7,10 @@ namespace Hospital_Management.Models.Patient
 {
     public class Patient 
     {
-        public Patient()
-        {
-            AssociatedDoctor = new Doctor.Doctor();
-        }
+        //public Patient()
+        //{
+        //    AssociatedDoctor = new Doctor.Doctor();
+        //}
         [JsonProperty("PatientName")]
         public string PatientName { get; set; }
 
@@ -43,7 +43,7 @@ namespace Hospital_Management.Models.Patient
            // throw new NotImplementedException();
         //}
 
-        public Doctor.Doctor AssociatedDoctor { get; set; } 
+        //public Doctor.Doctor AssociatedDoctor { get; set; } 
     }
     public class Patients
     {
