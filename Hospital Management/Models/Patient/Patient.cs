@@ -40,10 +40,10 @@ namespace Hospital_Management.Models.Patient
 
         //internal DateTime AddDays(int v)
         //{
-           // throw new NotImplementedException();
+        // throw new NotImplementedException();
         //}
 
-        //public Doctor.Doctor AssociatedDoctor { get; set; } 
+        //public Doctor.Doctor AssociatedDoctor { get; set; }
     }
     public class Patients
     {
