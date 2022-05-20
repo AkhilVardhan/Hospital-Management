@@ -35,7 +35,7 @@ namespace Hospital_Management.Models.Patient
         public async Task InitiateConnection()
         {
             // Create a new instance of the Cosmos Client 
-            //configuring Azure Cosmosdb sql api details
+            //configuring Azure Cosmosdb in sql api details
             this.cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
             await CreateDatabaseAsync();
             await CreateContainerAsync();
@@ -85,7 +85,7 @@ namespace Hospital_Management.Models.Patient
             ItemResponse<Patient> PatientResponse = null;
             try
             {
-                /* Note : Partition Key value should not change */
+                /* Note : Partition Key value should not be change */
 
                 PatientResponse = await this.container.ReplaceItemAsync<Patient>(objPatient, objPatient.PatientGuid, new PartitionKey(objPatient.PatientId));
             }
