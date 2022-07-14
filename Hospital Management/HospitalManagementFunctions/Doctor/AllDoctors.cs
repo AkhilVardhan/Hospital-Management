@@ -8,8 +8,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+//Namespace is used to organize too many classes so that it can be easy to handle the application
 namespace Hospital_Management.Models.Doctor
 {
+    //Static is a keyword and it contains a class of a static data members
     public static class AllDoctors
     {
         [FunctionName("AllDoctors")]
